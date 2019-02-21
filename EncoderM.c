@@ -61,20 +61,6 @@ int motor(int pwr) {
 	return 0;
 }
 
-int throttle(int spd_ist, int spd_soll) {
-	int thr=0;
-	if (spd_ist > spd_soll) {
-		Power--;
-		thr=-1;
-	}
-	if (spd_ist < spd_soll) {
-		Power++;
-		thr=1;
-	}
-	return thr;
-}
-	
-
 int main(void) {
 	//setup
 	if(wiringPiSetup() == -1){ //when initialize wiring failed,print messageto screen
