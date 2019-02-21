@@ -81,13 +81,13 @@ int main(void) {
 		int i;
 		for (i=-100;i<=100;i++) {
 			motor(i);
-			factor = abs(i)/Speed_Current();
+			//factor = abs(i)/Speed_Current();
 			printf("Power %i%% Speed %irpm Direction %i (%f)\n",i,Speed_Current(),Direction,factor);
 			delay(200);
 		}
 		for (i=+100;i<=-100;i--) {
 			motor(i);
-			factor = abs(i)/Speed_Current();
+			//factor = abs(i)/Speed_Current();
 			printf("Power %i%% Speed %irpm Direction %i (%f)\n",i,Speed_Current(),Direction,factor);
 			delay(200);
 		}
