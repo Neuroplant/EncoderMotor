@@ -12,6 +12,7 @@
 #define Teeth		40	//number of teeth on the encoder wheel
 
 int CountA, Direction;
+float factor;
 
 void CountA_inc(void){
 	CountA++;
@@ -80,7 +81,8 @@ int main(void) {
 		int i;
 		for (i=-100;i<=100;i++) {
 			motor(i);
-			printf("Power %i%% Speed %irpm Direction %i \n",i,Speed_Current(),Direction);
+			factor = abs(i)/Speed_Current();
+			printf("Power %i%% Speed %irpm Direction %i (%f)\n",i,Speed_Current(),Direction,factor);
 			delay(200);
 		}
 		for (i=+100;i<=-100;i--) {
