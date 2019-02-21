@@ -64,7 +64,7 @@ int motor(int pwr) {
 
 int main(void) {
 	//setup
-	if(wiringPiSetup() == -1){ //when initialize wiring failed,print messageto screen
+	if(wiringPiSetup() == -1){ 
 		printf("setup wiringPi failed !");
 		return 1;
 	}
@@ -87,7 +87,8 @@ int main(void) {
 		}
 		for (i=+100;i<=-100;i--) {
 			motor(i);
-			printf("Power %i%% Speed %irpm Direction %i \n",i,Speed_Current(),Direction);
+			factor = abs(i)/Speed_Current();
+			printf("Power %i%% Speed %irpm Direction %i (%f)\n",i,Speed_Current(),Direction,factor);
 			delay(200);
 		}
 	}
