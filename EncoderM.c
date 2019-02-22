@@ -11,8 +11,8 @@
 #define PhaseBpin   	25
 #define Teeth		32	//number of teeth on the encoder wheel
 
-int CountA, Direction, i, v;
-float factor=1;
+int CountA, Direction, i;
+float factor=1, v;
 
 void CountA_inc(void){
 	CountA++;
@@ -22,8 +22,7 @@ void CheckDir(void){
 	if (digitalRead(PhaseApin)==LOW) Direction = -1;
 }
 
-int Speed_Current (void){
-	
+float Speed_Current (void){
 	CountA = 0;
 	delay(100);
 	return (CountA/Teeth)*600;
@@ -39,17 +38,17 @@ int motor(int pwr) {
 	if(pwr>0){
 		digitalWrite(motorPin1,HIGH);
 		digitalWrite(motorPin2,LOW);
-		printf("turn Forward...\n");
+		//printf("turn Forward...\n");
 	}
 	else if (pwr<0){
 		digitalWrite(motorPin1,LOW);
 		digitalWrite(motorPin2,HIGH);
-		printf("turn Back...\n");
+		//printf("turn Back...\n");
 	}
 	else {
 		digitalWrite(motorPin1,LOW); 
 		digitalWrite(motorPin2,LOW);
-		printf("Motor Stop...\n");
+		//printf("Motor Stop...\n");
 	}
 	softPwmWrite(enablePin,abs(pwr));
 	return 0;
@@ -100,7 +99,7 @@ int main(void) {
 			motor(i);
 			v = Speed_Current();
 			if (v!=0) factor = abs(i)/v;
-			printf("Power %i%% Speed %irpm Direction %i (%f)\n",i,v,Direction,factor);
+			printf("Power %i%% Speed %frpm Direction %i (%f)\n",i,v,Direction,factor);
 			delay(200);
 		}
 	}
