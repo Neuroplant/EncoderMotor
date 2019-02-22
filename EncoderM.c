@@ -23,20 +23,13 @@ void CheckDir(void){
 }
 
 int Speed_Current (void){
-	if ( wiringPiISR (PhaseApin, INT_EDGE_FALLING, &CountA_inc) < 0 ) {
-		printf("CountA failed!");
-	}
+	
 	CountA = 0;
 	delay(100);
 	return (CountA/Teeth)*600;
 }
 
-int Direction_init (void){
-	if ( wiringPiISR (PhaseBpin, INT_EDGE_FALLING, &CheckDir) < 0 ) {
-		printf("CheckDir failed!");
-	}
-	return Direction;
-}
+
 		
 
 // RPM messurement
@@ -65,7 +58,7 @@ int motor(int pwr) {
 int main(void) {
 	//setup
 	if(wiringPiSetup() == -1){ 
-		printf("setup wiringPi failed !");
+		printf("Setup wiringPi failed !");
 		return 1;
 	}
 	pinMode(enablePin,OUTPUT);
@@ -74,7 +67,15 @@ int main(void) {
 	softPwmCreate(enablePin,0,100);//define PMW pin
 	pinMode(PhaseApin,INPUT);
 	pinMode(PhaseBpin,INPUT);
-	Direction_init();
+	// Direction_init
+	if ( wiringPiISR (PhaseBpin, INT_EDGE_FALLING, &CheckDir) < 0 ) {
+		printf("CheckDir failed!");
+	}
+	// Speed_init
+	if ( wiringPiISR (PhaseApin, INT_EDGE_FALLING, &CountA_inc) < 0 ) {
+		printf("CountA failed!");
+	}
+}
 	
 	//loop
 	printf(" Check Pin %i and %i for input\n",PhaseApin,PhaseBpin);
