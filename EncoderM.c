@@ -11,7 +11,7 @@
 #define PhaseBpin   	25
 #define Teeth		32	//number of teeth on the encoder wheel
 
-int CountA, Direction, i;
+int CountA=2, Direction=2, i=0;
 float factor=1, v;
 
 void CountA_inc(void){
@@ -23,15 +23,11 @@ void CheckDir(void){
 }
 
 float Speed_Current (void){
+	
 	CountA = 0;
 	delay(100);
-	return (CountA/Teeth)*600;
+	return (CountA/Teeth)*6000;
 }
-
-
-		
-
-// RPM messurement
 
 
 int motor(int pwr) {
@@ -71,15 +67,16 @@ int main(void) {
 		printf("CheckDir failed!");
 	}
 	// Speed_init
-	if ( wiringPiISR (PhaseApin, INT_EDGE_FALLING, &CountA_inc) < 0 ) {
+	
+if ( wiringPiISR (PhaseApin, INT_EDGE_FALLING, &CountA_inc) < 0 ) {
 		printf("CountA failed!");
 	}
-}
 	
 	//loop
+	
 	printf(" Check Pin %i and %i for input\n",PhaseApin,PhaseBpin);
 	i=0;
-	while (i=0) {
+	while (0) {
 		i=digitalRead(PhaseApin);
 		printf(" Phase A: %i ",i);
 		i=digitalRead(PhaseBpin);
@@ -91,13 +88,15 @@ int main(void) {
 		for (i=-100;i<=100;i++) {
 			motor(i);
 			v = Speed_Current();
+			factor = 1;
 			if (v!=0) factor = abs(i)/v;
-			printf("Power %i%% Speed %irpm Direction %i (%f)\n",i,v,Direction,factor);
+			printf("Power %i%% Speed %frpm Direction %i (%f)\n",i,v,Direction,factor);
 			delay(200);
 		}
 		for (i=+100;i<=-100;i--) {
 			motor(i);
 			v = Speed_Current();
+			factor = 1;
 			if (v!=0) factor = abs(i)/v;
 			printf("Power %i%% Speed %frpm Direction %i (%f)\n",i,v,Direction,factor);
 			delay(200);
