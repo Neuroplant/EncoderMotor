@@ -9,10 +9,10 @@
 #define enablePin	23
 #define PhaseApin   	24	//pins directly connected to Motor
 #define PhaseBpin   	25
-#define Teeth		40	//number of teeth on the encoder wheel
+#define Teeth		32	//number of teeth on the encoder wheel
 
-int CountA, Direction;
-float factor;
+int CountA, Direction, i, v;
+float factor=1;
 
 void CountA_inc(void){
 	CountA++;
@@ -77,18 +77,29 @@ int main(void) {
 	Direction_init();
 	
 	//loop
+	printf(" Check Pin %i and %i for input\n",PhaseApin,PhaseBpin);
+	i=0;
+	while (i=0) {
+		i=digitalRead(PhaseApin);
+		printf(" Phase A: %i ",i);
+		i=digitalRead(PhaseBpin);
+		printf(" Phase B: %i \n",i);
+	}
+	delay(1000);
 	while(1){
-		int i;
+		
 		for (i=-100;i<=100;i++) {
 			motor(i);
-			//factor = abs(i)/Speed_Current();
-			printf("Power %i%% Speed %irpm Direction %i (%f)\n",i,Speed_Current(),Direction,factor);
+			v = Speed_Current();
+			if (v!=0) factor = abs(i)/v;
+			printf("Power %i%% Speed %irpm Direction %i (%f)\n",i,v,Direction,factor);
 			delay(200);
 		}
 		for (i=+100;i<=-100;i--) {
 			motor(i);
-			//factor = abs(i)/Speed_Current();
-			printf("Power %i%% Speed %irpm Direction %i (%f)\n",i,Speed_Current(),Direction,factor);
+			v = Speed_Current();
+			if (v!=0) factor = abs(i)/v;
+			printf("Power %i%% Speed %irpm Direction %i (%f)\n",i,v,Direction,factor);
 			delay(200);
 		}
 	}
