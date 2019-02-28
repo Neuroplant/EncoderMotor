@@ -7,8 +7,8 @@
 #define motorPin1	21	//define the pins connected to Motor Driver (L293D)
 #define motorPin2	22
 #define enablePin	23
-#define PhaseApin   	24	//pins directly connected to Motor
-#define PhaseBpin   	25
+#define PhaseApin   	4	//pins directly connected to Motor
+#define PhaseBpin   	5
 #define Teeth		32	//number of teeth on the encoder wheel
 
 int CountA=2, Direction=2, i=0;
