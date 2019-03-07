@@ -9,6 +9,7 @@
 #define DEV_ID0		0x40
 #define PIN_BASE0 	64
 #define PWM_MAX 	4096
+#define HERTZ		50
 
 #define motorPin1	0 + PIN_BASE0		//Motor Vorwärts        out digital
 #define motorPin2	1 + PIN_BASE0	  	//Motor Rückwärts       out digital
