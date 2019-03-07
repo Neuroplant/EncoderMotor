@@ -1,15 +1,26 @@
 #include <wiringPi.h>
+#include <wiringPiI2C.h>
+#include <pca9685.h>
 #include <stdio.h>
-#include <softPwm.h>
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>
-#define motorPin1	21	//define the pins connected to Motor Driver (L293D)
-#define motorPin2	22
-#define enablePin	23
-#define PhaseApin   	4	//pins directly connected to Motor
-#define PhaseBpin   	5
+
+#define DEV_ID0		0x40
+#define PIN_BASE0 	64
+#define PWM_MAX 	4096
+
+#define motorPin1	0 + PIN_BASE0		//Motor Vorwärts        out digital
+#define motorPin2	1 + PIN_BASE0	  	//Motor Rückwärts       out digital
+#define enablePin	2 + PIN_BASE0  		//Motor Geschwindigkeit out PWM
+
+#define PhaseApin   	2	//pins directly connected to Motor
+#define PhaseBpin   	3
+
 #define Teeth		32	//number of teeth on the encoder wheel
+
+
+
 
 int CountA=2, Direction=2, i=0;
 float factor=1, v;
@@ -32,21 +43,21 @@ float Speed_Current (void){
 
 int motor(int pwr) {
 	if(pwr>0){
-		digitalWrite(motorPin1,HIGH);
-		digitalWrite(motorPin2,LOW);
+		pwmWrite(motorPin1,PWM_MAX);
+		pwmWrite(motorPin2,0);
 		//printf("turn Forward...\n");
 	}
 	else if (pwr<0){
-		digitalWrite(motorPin1,LOW);
-		digitalWrite(motorPin2,HIGH);
+		pwmWrite(motorPin1,0);
+		pwmWrite(motorPin2,PWM_MAX);
 		//printf("turn Back...\n");
 	}
 	else {
-		digitalWrite(motorPin1,LOW); 
-		digitalWrite(motorPin2,LOW);
+		pwmWrite(motorPin1,0); 
+		pwmWrite(motorPin2,0);
 		//printf("Motor Stop...\n");
 	}
-	softPwmWrite(enablePin,abs(pwr));
+	pwmWrite(enablePin,abs(pwr));
 	return 0;
 }
 
@@ -56,10 +67,19 @@ int main(void) {
 		printf("Setup wiringPi failed !");
 		return 1;
 	}
+	if(wiringPiI2CSetup(DEV_ID0) == -1){
+		printf("setup wiringPi I2C faiservo !");
+		return 1;
+	}
+	int fd = pca9685Setup(PIN_BASE0, DEV_ID0, HERTZ);
+	if (fd < 0) {
+		printf("Error in setup\n");
+		return fd;
+	}
 	pinMode(enablePin,OUTPUT);
 	pinMode(motorPin1,OUTPUT);
 	pinMode(motorPin2,OUTPUT);
-	softPwmCreate(enablePin,0,100);//define PMW pin
+	
 	pinMode(PhaseApin,INPUT);
 	pinMode(PhaseBpin,INPUT);
 	// Direction_init
@@ -68,7 +88,7 @@ int main(void) {
 	}
 	// Speed_init
 	
-if ( wiringPiISR (PhaseApin, INT_EDGE_FALLING, &CountA_inc) < 0 ) {
+	if ( wiringPiISR (PhaseApin, INT_EDGE_FALLING, &CountA_inc) < 0 ) {
 		printf("CountA failed!");
 	}
 	
@@ -76,16 +96,16 @@ if ( wiringPiISR (PhaseApin, INT_EDGE_FALLING, &CountA_inc) < 0 ) {
 	
 	printf(" Check Pin %i and %i for input\n",PhaseApin,PhaseBpin);
 	i=0;
-	while (0) {
+/*	while (0) {
 		i=digitalRead(PhaseApin);
 		printf(" Phase A: %i ",i);
 		i=digitalRead(PhaseBpin);
 		printf(" Phase B: %i \n",i);
 	}
+*/
 	delay(1000);
 	while(1){
-		
-		for (i=-100;i<=100;i++) {
+		for (i=-PWM_MAX;i<=PWM_MAX;i++) {
 			motor(i);
 			v = Speed_Current();
 			factor = 1;
@@ -93,7 +113,7 @@ if ( wiringPiISR (PhaseApin, INT_EDGE_FALLING, &CountA_inc) < 0 ) {
 			printf("Power %i%% Speed %frpm Direction %i (%f)\n",i,v,Direction,factor);
 			delay(200);
 		}
-		for (i=+100;i<=-100;i--) {
+		for (i=+PWM_MAX;i<=-PWM_MAX;i--) {
 			motor(i);
 			v = Speed_Current();
 			factor = 1;
