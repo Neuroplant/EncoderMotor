@@ -9,3 +9,6 @@ found a cheap DC Motor with encoder weel (size: 130, up to 12V, prize 1,25€)
 	5 PhaseApin	violett
 	6 PhaseBpin	green
 1+2	for DC Motor
+
+# :(
+Ich bekomme z.Z. kein Signal vom Encoder, entweder ein HW Defekt (s. https://neuroplant.spdns.de/blog/roboter/1015/) oder ich habe etwas bei der Programmierung falsch
