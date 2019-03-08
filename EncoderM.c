@@ -15,8 +15,8 @@
 #define motorPin2	1 + PIN_BASE0	  	//Motor Rückwärts       out digital
 #define enablePin	2 + PIN_BASE0  		//Motor Geschwindigkeit out PWM
 
-#define PhaseApin   	2	//pins directly connected to Motor
-#define PhaseBpin   	3
+#define PhaseApin   	0	//pins directly connected to Motor
+#define PhaseBpin   	2
 
 #define Teeth		32	//number of teeth on the encoder wheel
 
@@ -77,6 +77,9 @@ int main(void) {
 		printf("Error in setup\n");
 		return fd;
 	}
+	pinMode(7,OUTPUT);
+	digitalWrite(7,LOW);
+	
 	pinMode(enablePin,OUTPUT);
 	pinMode(motorPin1,OUTPUT);
 	pinMode(motorPin2,OUTPUT);
