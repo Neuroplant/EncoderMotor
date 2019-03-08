@@ -15,8 +15,8 @@
 #define motorPin2	1 + PIN_BASE0	  	//Motor Rückwärts       out digital
 #define enablePin	2 + PIN_BASE0  		//Motor Geschwindigkeit out PWM
 
-#define PhaseApin   	0	//pins directly connected to Motor
-#define PhaseBpin   	2
+#define PhaseApin   	2	//pins directly connected to Motor
+#define PhaseBpin   	3
 
 #define Teeth		32	//number of teeth on the encoder wheel
 
