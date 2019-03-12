@@ -12,6 +12,7 @@ found a cheap DC Motor with encoder weel (size: 130, up to 12V, prize 1,25€)
 	1+2	for DC Motor
 
 Have bought another Motor (size: 370, up to 12V)
+
 	Red → motor power + (exchange can control the motor is reversing)
 	Black → Code Power - Negative (positive and negative level can not be the wrong 3.3-5V)
 	Yellow → signal feedback (motor turn 11 signals)
