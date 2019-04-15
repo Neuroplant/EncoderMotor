@@ -79,7 +79,7 @@ int main(void) {
 	pinMode(7,OUTPUT);
 	digitalWrite(7,LOW);
 	
-	pinMode(enablePin,OUTPUT);
+	//pinMode(enablePin,OUTPUT);
 	pinMode(motorPin1,OUTPUT);
 	pinMode(motorPin2,OUTPUT);
 	
