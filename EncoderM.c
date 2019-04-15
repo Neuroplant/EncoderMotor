@@ -27,10 +27,13 @@ float factor=1, v;
 
 void CountA_inc(void){
 	CountA++;
+		printf("/nPhaseAPin Triggerd!! Count %i/n",CountA);
+
 }
 void CheckDir(void){
 	if (digitalRead(PhaseApin)==HIGH) Direction = 1;
 	if (digitalRead(PhaseApin)==LOW) Direction = -1;
+	printf("/nPhaseBPin Triggerd!! Dir %i/n",Direction);
 }
 
 float Speed_Current (void){
