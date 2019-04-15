@@ -43,13 +43,13 @@ float Speed_Current (void){
 
 int motor(int pwr) {
 	if(pwr>0){
-		pwmWrite(motorPin1,PWM_MAX);
+		pwmWrite(motorPin1,pwr);
 		pwmWrite(motorPin2,0);
 		//printf("turn Forward...\n");
 	}
 	else if (pwr<0){
 		pwmWrite(motorPin1,0);
-		pwmWrite(motorPin2,PWM_MAX);
+		pwmWrite(motorPin2,-pwr);
 		//printf("turn Back...\n");
 	}
 	else {
@@ -57,7 +57,7 @@ int motor(int pwr) {
 		pwmWrite(motorPin2,0);
 		//printf("Motor Stop...\n");
 	}
-	pwmWrite(enablePin,abs(pwr));
+	//pwmWrite(enablePin,abs(pwr));
 	return 0;
 }
 
