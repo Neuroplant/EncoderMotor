@@ -111,7 +111,7 @@ int main(void) {
 */
 	delay(1000);
 	while(1){
-		for (i=-PWM_MAX;i<=PWM_MAX;i++) {
+		for (i=-PWM_MAX;i<=PWM_MAX;i=i+10) {
 			motor(i);
 			v = Speed_Current();
 			factor = 1;
@@ -119,7 +119,7 @@ int main(void) {
 			printf("Power %i%% Speed %frpm Direction %i (%f)\n",i,v,Direction,factor);
 			delay(200);
 		}
-		for (i=+PWM_MAX;i<=-PWM_MAX;i--) {
+		for (i=+PWM_MAX;i<=-PWM_MAX;i=i-10) {
 			motor(i);
 			v = Speed_Current();
 			factor = 1;
