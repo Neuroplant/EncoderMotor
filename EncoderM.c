@@ -11,14 +11,13 @@
 #define PWM_MAX 	4096
 #define HERTZ		50
 
-#define motorPin1	0 + PIN_BASE0		//Motor Vorwärts        out digital
-#define motorPin2	1 + PIN_BASE0	  	//Motor Rückwärts       out digital
-#define enablePin	2 + PIN_BASE0  		//Motor Geschwindigkeit out PWM
+#define motorPin1	14 + PIN_BASE0		//Motor Vorwärts        out digital
+#define motorPin2	13 + PIN_BASE0	  	//Motor Rückwärts       out digital
 
-#define PhaseApin   	3	//pins directly connected to Motor
-#define PhaseBpin   	2
+#define PhaseApin   	13	//pins directly connected to Motor
+#define PhaseBpin   	12
 
-#define Teeth		32	//number of teeth on the encoder wheel
+#define Teeth		11	//number of teeth on the encoder wheel
 
 
 
