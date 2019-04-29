@@ -40,7 +40,7 @@ float Speed_Current (void){
 	
 	CountA = 0;
 	delay(100);
-	return (CountA/Teeth)*6000;
+	return CountA; // (CountA/Teeth)*6000;
 }
 
 
