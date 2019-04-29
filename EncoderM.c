@@ -31,8 +31,8 @@ void CountA_inc(void){
 
 }
 void CheckDir(void){
-	if (digitalRead(PhaseApin)==HIGH) Direction = 1;
-	if (digitalRead(PhaseApin)==LOW) Direction = -1;
+	if (digitalRead(PhaseApin)==HIGH) Direction = -1;
+	if (digitalRead(PhaseApin)==LOW) Direction = 1;
 	//printf("/nPhaseBPin Triggerd!! Dir %i/n",Direction);
 }
 
