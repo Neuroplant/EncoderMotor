@@ -17,12 +17,14 @@
 #define PhaseApin   	13	//pins directly connected to Motor
 #define PhaseBpin   	12
 
+#define SPIN_MAX	50 
+
 #define Teeth		11	//number of teeth on the encoder wheel
 
 
 
 
-int CountA=2, Direction=2, i=0;
+int CountA=2, Direction=2, i=0, Throttle=0
 float factor=1, v;
 
 void CountA_inc(void){
@@ -111,21 +113,37 @@ int main(void) {
 */
 	delay(1000);
 	while(1){
-		for (i=-PWM_MAX;i<=PWM_MAX;i=i+10) {
-			motor(i);
-			v = Speed_Current();
-			factor = 1;
-			if (v!=0) factor = abs(i)/v;
-			printf("Power %i%% Speed %frpm Direction %i (%f)\n",i,v,Direction,factor);
-			delay(200);
+		for (i=-SPIN_MAX;i<=SPIN_MAX;i=i++) {
+			while (i!=Speed_Current()) {
+				motor(Throttle);
+				if (Speed_Current() < i) Throttle++;
+				if (Speed_Current() > i) Throttle--;	
+				v = Speed_Current();
+				factor = 666;
+				if (v!=0) factor = abs(i)/v;
+				printf("Target %i Speed %frpm Thorttle %i (%f)\n",i,v,Throttle,factor);
+				if (abs(Throttle) > PWM_MAX) {
+					printf("SPIN_MAX %i nicht erreicht",(int)SPIN_MAX);
+					return;
+				}
+				delay(200);
+			}
 		}
-		for (i=+PWM_MAX;i<=-PWM_MAX;i=i-10) {
-			motor(i);
-			v = Speed_Current();
-			factor = 1;
-			if (v!=0) factor = abs(i)/v;
-			printf("Power %i%% Speed %frpm Direction %i (%f)\n",i,v,Direction,factor);
-			delay(200);
+		for (i=+SPIN_MAX;i<=-SPIN_MAX;i=i--) {
+			while (i!=Speed_Current()) {
+				motor(Throttle);
+				if (Speed_Current() < i) Throttle++;
+				if (Speed_Current() > i) Thorttle--;
+				v = Speed_Current();
+				factor = 999;
+				if (v!=0) factor = abs(i)/v;
+				printf("Target %i Speed %frpm Thorttle %i (%f)\n",i,v,Throttle,factor);
+				if (abs(Throttle) > PWM_MAX) {
+					printf("SPIN_MAX %i nicht erreicht",(int)SPIN_MAX);
+					return;
+				}
+				delay(200);
+			}
 		}
 	}
 	return 0;
