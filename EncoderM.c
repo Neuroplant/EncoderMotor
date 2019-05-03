@@ -118,7 +118,7 @@ int main(void) {
 	delay(1000);
 	while(1){
 		for (i=-SPIN_MAX;i<=SPIN_MAX;i=i++) {
-			while (i >=(int)Speed_Current()) {
+			while (i<=(int)Speed_Current()) {
 				motor(Throttle);
 				if (Speed_Current() < i) Throttle=Throttle+Accel;
 				if (Speed_Current() > i) Throttle=Throttle-Accel;
@@ -135,7 +135,7 @@ int main(void) {
 			}
 		}
 		for (i=+SPIN_MAX;i<=-SPIN_MAX;i=i--) {
-			while (i<=(int)Speed_Current()) {
+			while (i>=(int)Speed_Current()) {
 				motor(Throttle);
 				if (Speed_Current() < i) Throttle=Throttle+Accel;
 				if (Speed_Current() > i) Throttle=Throttle-Accel;
