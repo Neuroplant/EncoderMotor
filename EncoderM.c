@@ -134,7 +134,7 @@ int main(void) {
 			while (i!=Speed_Current()) {
 				motor(Throttle);
 				if (Speed_Current() < i) Throttle++;
-				if (Speed_Current() > i) Thorttle--;
+				if (Speed_Current() > i) Throttle--;
 				v = Speed_Current();
 				factor = 999;
 				if (v!=0) factor = abs(i)/v;
