@@ -141,7 +141,7 @@ int main(void) {
 				printf("Target %i Speed %frpm Thorttle %i (%f)\n",i,v,Throttle,factor);
 				if (abs(Throttle) > PWM_MAX) {
 					printf("SPIN_MAX %i nicht erreicht",(int)SPIN_MAX);
-					return;
+					return -1;
 				}
 				delay(200);
 			}
