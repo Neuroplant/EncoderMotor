@@ -17,7 +17,8 @@
 #define PhaseApin   	13	//pins directly connected to Motor
 #define PhaseBpin   	12
 
-#define SPIN_MAX	50 
+#define SPIN_MAX	50
+#define Accel		16
 
 #define Teeth		11	//number of teeth on the encoder wheel
 
@@ -28,22 +29,24 @@ int CountA=2, Direction=2, i=0, Throttle=0;
 float factor=1;
 float v;
 
+
 void CountA_inc(void){
 	CountA++;
 	//	printf("/nPhaseAPin Triggerd!! Count %i/n",CountA);
 
 }
 void CheckDir(void){
-	if (digitalRead(PhaseApin)==HIGH) Direction = 1;
-	if (digitalRead(PhaseApin)==LOW) Direction = -1;
+	if (digitalRead(PhaseApin)==HIGH) Direction = -1;
+	if (digitalRead(PhaseApin)==LOW) Direction = 1;
 	//printf("/nPhaseBPin Triggerd!! Dir %i/n",Direction);
 }
 
 float Speed_Current (void){
-	
+	float val;
 	CountA = 0;
 	delay(100);
-	return CountA; // (CountA/Teeth)*6000;
+	val = CountA * Direction;
+	return val; // (CountA/Teeth)*6000;
 }
 
 
@@ -117,12 +120,12 @@ int main(void) {
 		for (i=-SPIN_MAX;i<=SPIN_MAX;i=i++) {
 			while (i!=Speed_Current()) {
 				motor(Throttle);
-				if (Speed_Current() < i) Throttle++;
-				if (Speed_Current() > i) Throttle--;	
+				if (Speed_Current() < i) Throttle=Throttle+Accel;
+				if (Speed_Current() > i) Throttle=Throttle-Accel;	
 				v = Speed_Current();
 				factor = 666;
 				if (v!=0) factor = abs(i)/v;
-				printf("Target %i Speed %frpm Thorttle %i (%f)\n",i,v,Throttle,factor);
+				printf("Target %3i Speed %3frpm Thorttle %4i (%3f)\n",i,v,Throttle,factor);
 				if (abs(Throttle) > PWM_MAX) {
 					printf("SPIN_MAX %i nicht erreicht",(int)SPIN_MAX);
 					return -1;
@@ -133,12 +136,12 @@ int main(void) {
 		for (i=+SPIN_MAX;i<=-SPIN_MAX;i=i--) {
 			while (i!=Speed_Current()) {
 				motor(Throttle);
-				if (Speed_Current() < i) Throttle++;
-				if (Speed_Current() > i) Throttle--;
+				if (Speed_Current() < i) Throttle=Throttle+Accel;
+				if (Speed_Current() > i) ThrottleThrottle-Accel;
 				v = Speed_Current();
 				factor = 999;
 				if (v!=0) factor = abs(i)/v;
-				printf("Target %i Speed %frpm Thorttle %i (%f)\n",i,v,Throttle,factor);
+				printf("Target %3i Speed %3frpm Thorttle %4i (%3f)\n",i,v,Throttle,factor);
 				if (abs(Throttle) > PWM_MAX) {
 					printf("SPIN_MAX %i nicht erreicht",(int)SPIN_MAX);
 					return -1;
