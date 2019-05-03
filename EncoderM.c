@@ -118,10 +118,11 @@ int main(void) {
 	delay(1000);
 	while(1){
 		for (i=-SPIN_MAX;i<=SPIN_MAX;i=i++) {
-			while (i!=(int)Speed_Current()) {
+			while (i >=(int)Speed_Current()) {
 				motor(Throttle);
 				if (Speed_Current() < i) Throttle=Throttle+Accel;
-				if (Speed_Current() > i) Throttle=Throttle-Accel;	
+				if (Speed_Current() > i) Throttle=Throttle-Accel;
+				if (Speed_Current() == i) printf("Target reached");
 				v = Speed_Current();
 				factor = 666;
 				if (v!=0) factor = abs(i)/v;
@@ -130,14 +131,15 @@ int main(void) {
 					printf("SPIN_MAX %i nicht erreicht",(int)SPIN_MAX);
 					return -1;
 				}
-				delay(200);
+				delay(100);
 			}
 		}
 		for (i=+SPIN_MAX;i<=-SPIN_MAX;i=i--) {
-			while (i!=(int)Speed_Current()) {
+			while (i<=(int)Speed_Current()) {
 				motor(Throttle);
 				if (Speed_Current() < i) Throttle=Throttle+Accel;
 				if (Speed_Current() > i) Throttle=Throttle-Accel;
+				if (Speed_Current() == i) printf("Target reached");
 				v = Speed_Current();
 				factor = 999;
 				if (v!=0) factor = abs(i)/v;
@@ -146,7 +148,7 @@ int main(void) {
 					printf("SPIN_MAX %i nicht erreicht",(int)SPIN_MAX);
 					return -1;
 				}
-				delay(200);
+				delay(100);
 			}
 		}
 	}
