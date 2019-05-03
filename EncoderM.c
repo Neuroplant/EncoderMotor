@@ -24,8 +24,9 @@
 
 
 
-int CountA=2, Direction=2, i=0, Throttle=0
-float factor=1, v;
+int CountA=2, Direction=2, i=0, Throttle=0;
+float factor=1;
+float v;
 
 void CountA_inc(void){
 	CountA++;
@@ -124,7 +125,7 @@ int main(void) {
 				printf("Target %i Speed %frpm Thorttle %i (%f)\n",i,v,Throttle,factor);
 				if (abs(Throttle) > PWM_MAX) {
 					printf("SPIN_MAX %i nicht erreicht",(int)SPIN_MAX);
-					return;
+					return -1;
 				}
 				delay(200);
 			}
