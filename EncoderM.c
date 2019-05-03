@@ -124,7 +124,7 @@ int main(void) {
 				if (Speed_Current() > i) Throttle=Throttle-Accel;
 				if (Speed_Current() == i){
 					printf("Target reached");
-					break;
+					i++;
 				}
 				v = Speed_Current();
 				factor = 666;
@@ -144,7 +144,7 @@ int main(void) {
 				if (Speed_Current() > i) Throttle=Throttle-Accel;
 				if (Speed_Current() == i){
 					printf("Target reached");
-					break;
+					i--;
 				}
 				v = Speed_Current();
 				factor = 999;
