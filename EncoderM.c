@@ -107,7 +107,6 @@ int main(void) {
 	//loop
 	
 	printf(" Check Pin %i and %i for input\n",PhaseApin,PhaseBpin);
-	i=0;
 /*	while (0) {
 		i=digitalRead(PhaseApin);
 		printf(" Phase A: %i ",i);
@@ -115,48 +114,30 @@ int main(void) {
 		printf(" Phase B: %i \n",i);
 	}
 */
+	motor(0);
 	delay(1000);
 	while(1){
-		for (i=-SPIN_MAX;i<=SPIN_MAX;i=i++) {
-			while (i<=(int)Speed_Current()) {
-				motor(Throttle);
-				if (Speed_Current() < i) Throttle=Throttle+Accel;
-				if (Speed_Current() > i) Throttle=Throttle-Accel;
-				if (Speed_Current() == i){
-					printf("Target reached");
-					i++;
-				}
-				v = Speed_Current();
-				factor = 666;
-				if (v!=0) factor = abs(i)/v;
-				printf("Target %3i Speed %3frpm Thorttle %4i (%3f)\n",i,v,Throttle,factor);
-				if (abs(Throttle) > PWM_MAX) {
-					printf("SPIN_MAX %i nicht erreicht",(int)SPIN_MAX);
-					return -1;
-				}
-				delay(100);
-			}
-		}
 		for (i=+SPIN_MAX;i<=-SPIN_MAX;i=i--) {
-			while (i>=(int)Speed_Current()) {
-				motor(Throttle);
-				if (Speed_Current() < i) Throttle=Throttle+Accel;
-				if (Speed_Current() > i) Throttle=Throttle-Accel;
-				if (Speed_Current() == i){
-					printf("Target reached");
-					i--;
-				}
-				v = Speed_Current();
+			int v = 0;
+			while (i != v) {
+				if (v < i)  {Throttle=Throttle+Accel; printf("^ ");}
+				if (v > i)  {Throttle=Throttle-Accel; printf("v ");}
+				if (v == i) printf("Target reached\n");
 				factor = 999;
-				if (v!=0) factor = abs(i)/v;
-				printf("Target %3i Speed %3frpm Thorttle %4i (%3f)\n",i,v,Throttle,factor);
+				if (v!=0) factor = i/v;
+				printf("Target %i Speed %irpm Thorttle %i (%3.0f)\n",i,v,Throttle,factor);
 				if (abs(Throttle) > PWM_MAX) {
 					printf("SPIN_MAX %i nicht erreicht",(int)SPIN_MAX);
+					motor(0);
 					return -1;
 				}
+				motor(Throttle);
 				delay(100);
+				v = (int)Speed_Current();
 			}
+			printf("Target reached!\n");
 		}
 	}
+	motor(0);
 	return 0;
 }
