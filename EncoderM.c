@@ -122,7 +122,10 @@ int main(void) {
 				motor(Throttle);
 				if (Speed_Current() < i) Throttle=Throttle+Accel;
 				if (Speed_Current() > i) Throttle=Throttle-Accel;
-				if (Speed_Current() == i) printf("Target reached");
+				if (Speed_Current() == i){
+					printf("Target reached");
+					return;
+				}
 				v = Speed_Current();
 				factor = 666;
 				if (v!=0) factor = abs(i)/v;
@@ -139,7 +142,10 @@ int main(void) {
 				motor(Throttle);
 				if (Speed_Current() < i) Throttle=Throttle+Accel;
 				if (Speed_Current() > i) Throttle=Throttle-Accel;
-				if (Speed_Current() == i) printf("Target reached");
+				if (Speed_Current() == i){
+					printf("Target reached");
+					return;
+				}
 				v = Speed_Current();
 				factor = 999;
 				if (v!=0) factor = abs(i)/v;
